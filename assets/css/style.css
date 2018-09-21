@@ -71,3 +71,6 @@ button, form, input {
     width: 15%;
     float: right;
 }
+.rmFav {
+    float: right;
+}

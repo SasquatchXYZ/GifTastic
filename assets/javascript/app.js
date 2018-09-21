@@ -16,10 +16,15 @@ function renderButtons() {
 
 function renderFavorites(favArray) {
     $(".favorites").empty();
-    for (var n = 0; n < favArray.length; n++){
-        let favItem = favArray[n];
-        console.log(favItem);
-        $(".favorites").append(favItem);
+    for (var n = 0; n < favArray.length; n++) {
+        let favCard = $(`<div class="favCard">
+                        <button class="rmFav" data-delete="${n}">x</button>
+                        <a href="${favArray[n].link}" target="_blank" class="fav">
+                        <img src="${favArray[n].thumbnail}"></a>
+                        </div>
+                        `);
+        console.log(favCard);
+        $(".favorites").append(favCard);
     }
 
 }
@@ -82,14 +87,19 @@ $(document).on("click", ".topic-btn", function () {
     })
 
     .on("click", ".favorite", function() {
-        let favURL = $(this).attr("data-fav");
-        let favURLFull = $(this).attr("data-fav-full");
-        let favCard = $(`<a href="${favURLFull}" target="_blank" class="fav">
-                        <img src="${favURL}">
-                        </a>`);
+        let fav = {};
 
-        favArray.push(favCard);
-        console.log(favArray);
+        fav.thumbnail = $(this).attr("data-fav");
+        fav.link = $(this).attr("data-fav-full");
+
+        favArray.push(fav);
+
+        renderFavorites(favArray);
+    })
+
+    .on("click", ".rmFav", function() {
+        let rmArray = $(this).attr("data-delete");
+        favArray.splice(rmArray, 1);
 
         renderFavorites(favArray);
     });
@@ -104,7 +114,12 @@ $(document).ready(function() {
         event.preventDefault();
 
         const newTopic = $("#topic-input").val();
-        topics.push(newTopic);
+        if (newTopic === "") {
+        } else {
+            topics.push(newTopic);
+            $("#topic-input").val("");
+        }
+
 
         renderButtons();
     });
