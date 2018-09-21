@@ -53,9 +53,15 @@ button, form, input {
     text-align: center;
 }
 
+.gif-container {
+    margin: 10px;
+    text-align: left;
+    width: 70%;
+    float: left;
+}
+
 .gif-cards {
     margin: 10px;
     width: auto;
     float: left;
-
 }
