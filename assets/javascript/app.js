@@ -17,7 +17,7 @@ $(document).on("click", ".topic-btn", function () {
     var chosenTopic = $(this).attr("data-topic");
     console.log(chosenTopic);
 
-    let apiKey = '';
+    let apiKey = '9OMI8GxD4qrbVLJ6Env1e5XXHytw7ki0';
     let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=${apiKey}&limit=10`;
 
     $.ajax({
@@ -43,6 +43,8 @@ $(document).on("click", ".topic-btn", function () {
                     .attr("class", "gif");
 
                 let favoriteBtn = $(`<button class="favorite">Fave</button>`);
+                favoriteBtn.attr("data-fav", giffs[k].images.fixed_width.url)
+                    .attr("data-fav-full", giffs[k].images.original.url);
                 p.prepend(favoriteBtn);
 
                 let buttonLink = giffs[k].url;
@@ -51,7 +53,6 @@ $(document).on("click", ".topic-btn", function () {
 
                 gifDiv.prepend(gifImage);
                 gifDiv.prepend(p);
-                // gifDiv.append(gifButtons);
 
                 $(".gif-container").prepend(gifDiv);
             }
@@ -71,8 +72,11 @@ $(document).on("click", ".topic-btn", function () {
         }
     })
     .on("click", ".favorite", function() {
-
+        let favURl = $(this).attr("data-fav");
+        let favURLFull = $(this).attr("data-fav-full");
+        $(".favorites").append($(`<a href="${favURLFull}" target="_blank"><img class="fav" src="${favURl}"></a> `));
     });
+
 /*    .on("click", '.download', function(){
         let downloadlink = $(this).attr("data-download");
         downloadlink.attr("download");
