@@ -17,10 +17,13 @@ function renderButtons() {
 function renderFavorites(favArray) {
     $(".favorites").empty();
     for (var k = 0; k < favArray.length; k++) {
-        let favItem = favArray[k];
-        favItem.append(`<button class="rmFav" data-delete=${k}>x</button>`);
-        console.log(favItem);
-        $(".favorites").append(favItem);
+        let favCard = $(`<a href="${favArray[k].link}" target="_blank" class="fav">
+                                <img src="${favArray[k].thumbnail}"></a>
+                                <button class ="rmFav" data-delete="${k}">x</button>
+                                `);
+        /*favItem.append(`<button class="rmFav" data-delete=${k}>x</button>`);*/
+        console.log(favCard);
+        $(".favorites").append(favCard);
     }
 }
 
@@ -85,13 +88,21 @@ $(document).on("click", ".topic-btn", function () {
         }
     })
     .on("click", ".favorite", function () {
-        let favURl = $(this).attr("data-fav");
-        let favURLFull = $(this).attr("data-fav-full");
-        let favcard = $(`<a href="${favURLFull}" target="_blank" class="fav">
-                                <img src="${favURl}"></a>
-                                `);
-        favArray.push(favcard);
+        let fav = {};
+
+        fav.thumbnail = $(this).attr("data-fav");
+        console.log(fav.thumbnail);
+
+        fav.link = $(this).attr("data-fav-full");
+        console.log(fav.link);
+
+        /*let favCard = $(`<a href="${fav.link}" target="_blank" class="fav">
+                                <img src="${fav.thumbnail}"></a>
+                                `);*/
+        console.log(fav);
+        favArray.push(fav);
         console.log(favArray);
+        /*console.log(favArray);*/
         /*localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));*/
 
         renderFavorites(favArray);
