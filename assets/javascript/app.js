@@ -18,6 +18,7 @@ function renderFavorites(favArray) {
     $(".favorites").empty();
     for (var k = 0; k < favArray.length; k++) {
         let favItem = favArray[k];
+        favItem.append(`<button class="rmFav" data-delete=${k}>x</button>`);
         console.log(favItem);
         $(".favorites").append(favItem);
     }
@@ -88,10 +89,10 @@ $(document).on("click", ".topic-btn", function () {
         let favURLFull = $(this).attr("data-fav-full");
         let favcard = $(`<a href="${favURLFull}" target="_blank" class="fav">
                                 <img src="${favURl}"></a>
-                                <button class="rmFav">x</button>`);
+                                `);
         favArray.push(favcard);
         console.log(favArray);
-        localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
+        /*localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));*/
 
         renderFavorites(favArray);
         /*$(".favorites").append(favcard);*/
@@ -99,8 +100,12 @@ $(document).on("click", ".topic-btn", function () {
     })
     .on("click", ".rmFav", function () {
         console.log(this);
+        let rmArray = $(this).attr("data-delete");
+        console.log(rmArray);
+        favArray.splice(rmArray, 1);
+        renderFavorites(favArray);
         // let removeURL = this;
-        $(".favorites").empty(this);
+        /*$(".favorites").empty(this);*/
     });
 /*    .on("click", '.download', function(){
         let downloadlink = $(this).attr("data-download");
