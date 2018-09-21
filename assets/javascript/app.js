@@ -17,7 +17,7 @@ $(document).on("click", ".topic-btn", function () {
     var chosenTopic = $(this).attr("data-topic");
     console.log(chosenTopic);
 
-    let apiKey = '';
+    let apiKey = '9OMI8GxD4qrbVLJ6Env1e5XXHytw7ki0';
     let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=${apiKey}&limit=10`;
 
     $.ajax({
@@ -42,16 +42,15 @@ $(document).on("click", ".topic-btn", function () {
                     .attr("data-state", "still")
                     .attr("class", "gif");
 
-                let favoriteBtn = $(`<button class="favorite">Fave</button>`);
+/*                let favoriteBtn = $(`<button class="favorite">Fave</button>`);
                 p.prepend(favoriteBtn);
 
                 let buttonLink = giffs[k].url;
                 let downloadBtn = $(`<button><a href=${buttonLink} download="animal.gif">Save</a></button>`);
-                p.append(downloadBtn);
+                p.append(downloadBtn);*/
 
                 gifDiv.prepend(gifImage);
                 gifDiv.prepend(p);
-                // gifDiv.append(gifButtons);
 
                 $(".gif-container").prepend(gifDiv);
             }
@@ -70,9 +69,9 @@ $(document).on("click", ".topic-btn", function () {
             $(this).attr("src", url);
         }
     })
-    .on("click", ".favorite", function() {
+/*    .on("click", ".favorite", function() {
 
-    });
+    });*/
 /*    .on("click", '.download', function(){
         let downloadlink = $(this).attr("data-download");
         downloadlink.attr("download");
