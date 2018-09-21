@@ -2,14 +2,25 @@ let topics = ["dog", "cat", "rabbit", "hamster", "skunk", "goldfish", "bird", "f
     "sugar glider", "chinchilla", "hedgehog", "hermit crab", "gerbil", "pygmy goat", "chicken", "capybara",
     "teacup pig", "serval", "ostrich", "salamander", "frog"];
 
+let favArray = [];
+
 function renderButtons() {
     $(".button-container").empty()
         .html(
-            topics.map(function(topic) {
+            topics.map(function (topic) {
                 return `<button class="topic-btn" data-topic="${topic}">${topic}</button>`
             })
                 .join(``)
         );
+}
+
+function renderFavorites(favArray) {
+    $(".favorites").empty();
+    for (var k = 0; k < favArray.length; k++) {
+        let favItem = favArray[k];
+        console.log(favItem);
+        $(".favorites").append(favItem);
+    }
 }
 
 $(document).on("click", ".topic-btn", function () {
@@ -21,10 +32,10 @@ $(document).on("click", ".topic-btn", function () {
     let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=${apiKey}&limit=10`;
 
     $.ajax({
-        url:queryURL,
+        url: queryURL,
         method: "GET"
     })
-        .then(function(response) {
+        .then(function (response) {
             let giffs = response.data;
             console.log(response.data);
 
@@ -44,7 +55,8 @@ $(document).on("click", ".topic-btn", function () {
 
                 let favoriteBtn = $(`<button class="favorite">Fave</button>`);
                 favoriteBtn.attr("data-fav", giffs[k].images.fixed_width.url)
-                    .attr("data-fav-full", giffs[k].images.original.url);
+                    .attr("data-fav-full", giffs[k].images.original.url)
+                    .attr("data-object", giffs[k]);
                 p.prepend(favoriteBtn);
 
                 let buttonLink = giffs[k].url;
@@ -58,7 +70,7 @@ $(document).on("click", ".topic-btn", function () {
             }
         }).catch(console.log);
 })
-    .on("mouseover", ".gif", function() {
+    .on("mouseover", ".gif", function () {
         const state = $(this).attr("data-state");
 
         if (state === 'animate') {
@@ -71,21 +83,34 @@ $(document).on("click", ".topic-btn", function () {
             $(this).attr("src", url);
         }
     })
-    .on("click", ".favorite", function() {
+    .on("click", ".favorite", function () {
         let favURl = $(this).attr("data-fav");
         let favURLFull = $(this).attr("data-fav-full");
-        $(".favorites").append($(`<a href="${favURLFull}" target="_blank"><img class="fav" src="${favURl}"></a> `));
-    });
+        let favcard = $(`<a href="${favURLFull}" target="_blank" class="fav">
+                                <img src="${favURl}"></a>
+                                <button class="rmFav">x</button>`);
+        favArray.push(favcard);
+        console.log(favArray);
+        localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
 
+        renderFavorites(favArray);
+        /*$(".favorites").append(favcard);*/
+
+    })
+    .on("click", ".rmFav", function () {
+        console.log(this);
+        // let removeURL = this;
+        $(".favorites").empty(this);
+    });
 /*    .on("click", '.download', function(){
         let downloadlink = $(this).attr("data-download");
         downloadlink.attr("download");
 });*/
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
-    $("#add-topic").on("click", function(event) {
+    $("#add-topic").on("click", function (event) {
 
         event.preventDefault();
 
@@ -97,36 +122,44 @@ $(document).ready(function() {
 
     renderButtons();
 
-/*    $(".topic-btn").on("click", function() {
-        var chosenTopic = $(this).attr("data-topic");
-        console.log(chosenTopic);
+/*    let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
 
-        let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=9OMI8GxD4qrbVLJ6Env1e5XXHytw7ki0limit=10`
+    if (!Array.isArray(favArray)){
+        toDoArray = [];
+    }
 
-        $.ajax({
-            url:queryURL,
-            method: "GET"
-        })
-            .then(function(response) {
-                let giffs = response.data;
-                console.log(response.data);
+    renderFavorites(favArray);*/
 
-            for (var k = 0; k < giffs.length; k++) {
-                let gifDiv = $("<div>");
+    /*    $(".topic-btn").on("click", function() {
+            var chosenTopic = $(this).attr("data-topic");
+            console.log(chosenTopic);
 
-                let rating = (giffs[k].rating).toUpperCase();
+            let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=9OMI8GxD4qrbVLJ6Env1e5XXHytw7ki0limit=10`
 
-                let p = $("<p>").text(`Rating: ${rating}`);
+            $.ajax({
+                url:queryURL,
+                method: "GET"
+            })
+                .then(function(response) {
+                    let giffs = response.data;
+                    console.log(response.data);
 
-                let gifImage = $("<img>");
-                gifImage.attr("src", giffs[k].images.fixed_height.url);
+                for (var k = 0; k < giffs.length; k++) {
+                    let gifDiv = $("<div>");
 
-                gifDiv.prepend(p);
-                gifDiv.prepend(gifImage);
+                    let rating = (giffs[k].rating).toUpperCase();
 
-                $(".gif-container").prepend(gifDiv);
-            }
-        }).catch(console.log);
-    });*/
+                    let p = $("<p>").text(`Rating: ${rating}`);
+
+                    let gifImage = $("<img>");
+                    gifImage.attr("src", giffs[k].images.fixed_height.url);
+
+                    gifDiv.prepend(p);
+                    gifDiv.prepend(gifImage);
+
+                    $(".gif-container").prepend(gifDiv);
+                }
+            }).catch(console.log);
+        });*/
 
 });
