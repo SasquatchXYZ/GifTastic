@@ -131,7 +131,13 @@ $(document).ready(function () {
         event.preventDefault();
 
         const newTopic = $("#topic-input").val();
-        topics.push(newTopic);
+        if (newTopic === "") {
+
+        } else {
+            topics.push(newTopic);
+            $("#topic-input").val("")
+        }
+
 
         renderButtons();
     });
