@@ -2,12 +2,10 @@ let topics = ["dog", "cat", "rabbit", "hamster", "skunk", "goldfish", "bird", "f
     "sugar glider", "chinchilla", "hedgehog", "hermit crab", "gerbil", "pygmy goat", "chicken", "capybara",
     "teacup pig", "serval", "ostrich", "salamander", "frog"];
 
-let favArray = [];
-
 function renderButtons() {
     $(".button-container").empty()
         .html(
-            topics.map(function(topic) {
+            topics.map(function (topic) {
                 return `<button class="topic-btn" data-topic="${topic}">${topic}</button>`
             })
                 .join(``)
@@ -17,13 +15,11 @@ function renderButtons() {
 function renderFavorites(favArray) {
     $(".favorites").empty();
     for (var n = 0; n < favArray.length; n++) {
-        let favCard = $(`<div class="favCard">
-                        <button class="rmFav" data-delete="${n}">x</button>
-                        <a href="${favArray[n].link}" target="_blank" class="fav">
+        let favCard = $(`<a href="${favArray[n].link}" target="_blank" class="fav">
                         <img src="${favArray[n].thumbnail}"></a>
-                        </div>
+                        <button class="rmFav" data-delete="${n}">x</button>
                         `);
-        console.log(favCard);
+
         $(".favorites").append(favCard);
     }
 
@@ -38,10 +34,10 @@ $(document).on("click", ".topic-btn", function () {
     let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=${apiKey}&limit=10`;
 
     $.ajax({
-        url:queryURL,
+        url: queryURL,
         method: "GET"
     })
-        .then(function(response) {
+        .then(function (response) {
             let giffs = response.data;
             console.log(response.data);
 
@@ -72,7 +68,7 @@ $(document).on("click", ".topic-btn", function () {
             }
         }).catch(console.log);
 })
-    .on("click", ".gif", function() {
+    .on("click", ".gif", function () {
         const state = $(this).attr("data-state");
 
         if (state === 'animate') {
@@ -86,7 +82,7 @@ $(document).on("click", ".topic-btn", function () {
         }
     })
 
-    .on("click", ".favorite", function() {
+    .on("click", ".favorite", function () {
         let fav = {};
 
         fav.thumbnail = $(this).attr("data-fav");
@@ -94,22 +90,23 @@ $(document).on("click", ".topic-btn", function () {
 
         favArray.push(fav);
 
+        localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
+
         renderFavorites(favArray);
     })
 
-    .on("click", ".rmFav", function() {
+    .on("click", ".rmFav", function () {
         let rmArray = $(this).attr("data-delete");
         favArray.splice(rmArray, 1);
+
+        localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
 
         renderFavorites(favArray);
     });
 
+$(document).ready(function () {
 
-
-
-$(document).ready(function() {
-
-    $("#add-topic").on("click", function(event) {
+    $("#add-topic").on("click", function (event) {
 
         event.preventDefault();
 
@@ -119,11 +116,17 @@ $(document).ready(function() {
             topics.push(newTopic);
             $("#topic-input").val("");
         }
-
-
         renderButtons();
     });
 
+});
+
     renderButtons();
 
-});
+    let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
+
+    if (!Array.isArray(favArray)) {
+        favArray = [];
+    }
+
+    renderFavorites(favArray);

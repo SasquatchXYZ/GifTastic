@@ -71,6 +71,15 @@ button, form, input {
     width: 15%;
     float: right;
 }
+
+a {
+    float: left;
+    align-content: center;
+    margin: 0 auto 5px auto;
+}
 .rmFav {
-    float: right;
+    float: left;
+    margin: 0;
+    border: none;
+    background: none;
 }
