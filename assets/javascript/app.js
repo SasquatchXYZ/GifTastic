@@ -30,7 +30,7 @@ $(document).on("click", ".topic-btn", function () {
     var chosenTopic = $(this).attr("data-topic");
     console.log(chosenTopic);
 
-    let apiKey = '9OMI8GxD4qrbVLJ6Env1e5XXHytw7ki0';
+    let apiKey = '';
     let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=${apiKey}&limit=10`;
 
     $.ajax({
