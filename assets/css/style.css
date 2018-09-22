@@ -66,10 +66,21 @@ button, form, input {
     float: left;
 }
 
+.favorite {
+    background: none;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.favorite:hover {
+    border: 1px solid aqua;
+}
+
 .favorites {
     margin: 10px;
     width: 15%;
     float: right;
+    align-content: center;
 }
 
 a {

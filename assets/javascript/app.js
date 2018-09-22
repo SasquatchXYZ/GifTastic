@@ -22,16 +22,12 @@ function renderFavorites(favArray) {
 
         $(".favorites").append(favCard);
     }
-
 }
 
-$(document).on("click", ".topic-btn", function () {
-    $(".gif-container").empty();
-    var chosenTopic = $(this).attr("data-topic");
-    console.log(chosenTopic);
+function queryGiphy(topic) {
 
     let apiKey = '';
-    let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=${apiKey}&limit=10`;
+    let queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${apiKey}&limit=10`;
 
     $.ajax({
         url: queryURL,
@@ -64,10 +60,20 @@ $(document).on("click", ".topic-btn", function () {
                 gifDiv.prepend(gifImage);
                 gifDiv.prepend(p);
 
-                $(".gif-container").prepend(gifDiv);
+                $(".gif-container").append(gifDiv);
             }
         }).catch(console.log);
+
+}
+
+$(document).on("click", ".topic-btn", function () {
+    $(".gif-container").empty();
+    var chosenTopic = $(this).attr("data-topic");
+    console.log(chosenTopic);
+
+    queryGiphy(chosenTopic);
 })
+
     .on("click", ".gif", function () {
         const state = $(this).attr("data-state");
 
@@ -119,14 +125,15 @@ $(document).ready(function () {
         renderButtons();
     });
 
-});
-
     renderButtons();
 
-    let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
+});
 
-    if (!Array.isArray(favArray)) {
-        favArray = [];
-    }
+let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
 
-    renderFavorites(favArray);
+if (!Array.isArray(favArray)) {
+    favArray = [];
+}
+
+renderFavorites(favArray);
+
