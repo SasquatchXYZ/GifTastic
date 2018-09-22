@@ -66,20 +66,30 @@ button, form, input {
     float: left;
 }
 
+.favorite {
+    background: none;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.favorite:hover {
+    border: 1px solid aqua;
+}
+
+.show-more {
+    float: left;
+}
+
 .favorites {
     margin: 10px;
     width: 15%;
     float: right;
     align-content: center;
 }
+
 .fav-header {
     font-weight: bolder;
     font-size: 2em;
-}
-
-.favCard {
-
-    margin: 0 auto 5px auto;
 }
 
 a {

@@ -2,6 +2,8 @@ let topics = ["dog", "cat", "rabbit", "hamster", "skunk", "goldfish", "bird", "f
     "sugar glider", "chinchilla", "hedgehog", "hermit crab", "gerbil", "pygmy goat", "chicken", "capybara",
     "teacup pig", "serval", "ostrich", "salamander", "frog"];
 
+
+
 function renderButtons() {
     $(".button-container").empty()
         .html(
@@ -24,13 +26,9 @@ function renderFavorites(favArray) {
     }
 }
 
-$(document).on("click", ".topic-btn", function () {
-    $(".gif-container").empty();
-    var chosenTopic = $(this).attr("data-topic");
-    console.log(chosenTopic);
-
+function queryGiphy(topic) {
     let apiKey = '';
-    let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=${apiKey}&limit=10`;
+    let queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${apiKey}&limit=10`;
 
     $.ajax({
         url: queryURL,
@@ -54,7 +52,7 @@ $(document).on("click", ".topic-btn", function () {
                     .attr("data-state", "still")
                     .attr("class", "gif");
 
-                let favoriteBtn = $(`<button class="favorite">Fave</button>`);
+                let favoriteBtn = $(`<button class="favorite">Fav</button>`);
                 favoriteBtn.attr("data-fav", giffs[k].images.fixed_width.url)
                     .attr("data-fav-full", giffs[k].images.original.url)
                     .attr("data-object", giffs[k]);
@@ -67,9 +65,20 @@ $(document).on("click", ".topic-btn", function () {
                 gifDiv.prepend(gifImage);
                 gifDiv.prepend(p);
 
-                $(".gif-container").prepend(gifDiv);
+                $(".gif-container").append(gifDiv);
             }
         }).catch(console.log);
+
+    $(".more-button").append($(`<button class="show-more" data-topic="${topic}">Show Me More!</button>`))
+
+}
+
+$(document).on("click", ".topic-btn", function () {
+    $(".gif-container, .more-button").empty();
+    var chosenTopic = $(this).attr("data-topic");
+    console.log(chosenTopic);
+
+    queryGiphy(chosenTopic);
 })
 
     .on("mouseover", ".gif", function () {
@@ -114,13 +123,18 @@ $(document).on("click", ".topic-btn", function () {
         renderFavorites(favArray);
 
         localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
-    });
+    })
 
 /*    .on("click", '.download', function(){
         let downloadlink = $(this).attr("data-download");
         downloadlink.attr("download");
 });*/
-
+    .on("click", ".show-more", function () {
+    var chosenTopic = $(this).attr("data-topic");
+    this.remove();
+    queryGiphy(chosenTopic);
+    $("body").scrollTop(0);
+    });
 
 $(document).ready(function () {
 
@@ -141,12 +155,12 @@ $(document).ready(function () {
 
 });
 
-    renderButtons();
+renderButtons();
 
-    let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
+let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
 
-    if (!Array.isArray(favArray)){
-        favArray = [];
-    }
+if (!Array.isArray(favArray)) {
+    favArray = [];
+}
 
-    renderFavorites(favArray);
+renderFavorites(favArray);
