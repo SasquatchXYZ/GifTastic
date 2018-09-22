@@ -2,7 +2,7 @@ let topics = ["dog", "cat", "rabbit", "hamster", "skunk", "goldfish", "bird", "f
     "sugar glider", "chinchilla", "hedgehog", "hermit crab", "gerbil", "pygmy goat", "chicken", "capybara",
     "teacup pig", "serval", "ostrich", "salamander", "frog"];
 
-let favArray = [];
+/*let favArray = [];*/
 
 function renderButtons() {
     $(".button-container").empty()
@@ -18,11 +18,10 @@ function renderFavorites(favArray) {
     $(".favorites").empty();
     for (var k = 0; k < favArray.length; k++) {
         let favCard = $(`<a href="${favArray[k].link}" target="_blank" class="fav">
-                                <img src="${favArray[k].thumbnail}"></a>
-                                <button class ="rmFav" data-delete="${k}">x</button>
-                                `);
-        /*favItem.append(`<button class="rmFav" data-delete=${k}>x</button>`);*/
-        console.log(favCard);
+                            <img src="${favArray[k].thumbnail}"></a>
+                            <button class ="rmFav" data-delete="${k}">x</button>
+                            `);
+
         $(".favorites").append(favCard);
     }
 }
@@ -74,6 +73,7 @@ $(document).on("click", ".topic-btn", function () {
             }
         }).catch(console.log);
 })
+
     .on("mouseover", ".gif", function () {
         const state = $(this).attr("data-state");
 
@@ -87,6 +87,7 @@ $(document).on("click", ".topic-btn", function () {
             $(this).attr("src", url);
         }
     })
+
     .on("click", ".favorite", function () {
         let fav = {};
 
@@ -96,28 +97,27 @@ $(document).on("click", ".topic-btn", function () {
         fav.link = $(this).attr("data-fav-full");
         console.log(fav.link);
 
-        /*let favCard = $(`<a href="${fav.link}" target="_blank" class="fav">
-                                <img src="${fav.thumbnail}"></a>
-                                `);*/
         console.log(fav);
         favArray.push(fav);
         console.log(favArray);
-        /*console.log(favArray);*/
-        /*localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));*/
+
+        localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
 
         renderFavorites(favArray);
-        /*$(".favorites").append(favcard);*/
-
     })
+
     .on("click", ".rmFav", function () {
         console.log(this);
         let rmArray = $(this).attr("data-delete");
         console.log(rmArray);
+
         favArray.splice(rmArray, 1);
+
         renderFavorites(favArray);
-        // let removeURL = this;
-        /*$(".favorites").empty(this);*/
+
+        localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
     });
+
 /*    .on("click", '.download', function(){
         let downloadlink = $(this).attr("data-download");
         downloadlink.attr("download");
@@ -138,19 +138,20 @@ $(document).ready(function () {
             $("#topic-input").val("")
         }
 
-
         renderButtons();
     });
 
+});
+
     renderButtons();
 
-/*    let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
+    let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
 
     if (!Array.isArray(favArray)){
-        toDoArray = [];
+        favArray = [];
     }
 
-    renderFavorites(favArray);*/
+    renderFavorites(favArray);
 
     /*    $(".topic-btn").on("click", function() {
             var chosenTopic = $(this).attr("data-topic");
@@ -184,4 +185,3 @@ $(document).ready(function () {
             }).catch(console.log);
         });*/
 
-});
