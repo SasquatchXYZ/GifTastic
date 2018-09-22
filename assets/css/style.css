@@ -72,6 +72,10 @@ button, form, input {
     float: right;
     align-content: center;
 }
+.fav-header {
+    font-weight: bolder;
+    font-size: 2em;
+}
 
 .favCard {
 

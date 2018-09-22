@@ -2,8 +2,6 @@ let topics = ["dog", "cat", "rabbit", "hamster", "skunk", "goldfish", "bird", "f
     "sugar glider", "chinchilla", "hedgehog", "hermit crab", "gerbil", "pygmy goat", "chicken", "capybara",
     "teacup pig", "serval", "ostrich", "salamander", "frog"];
 
-/*let favArray = [];*/
-
 function renderButtons() {
     $(".button-container").empty()
         .html(
@@ -152,36 +150,3 @@ $(document).ready(function () {
     }
 
     renderFavorites(favArray);
-
-    /*    $(".topic-btn").on("click", function() {
-            var chosenTopic = $(this).attr("data-topic");
-            console.log(chosenTopic);
-
-            let queryURL = `https://api.giphy.com/v1/gifs/search?q=${chosenTopic}&api_key=9OMI8GxD4qrbVLJ6Env1e5XXHytw7ki0limit=10`
-
-            $.ajax({
-                url:queryURL,
-                method: "GET"
-            })
-                .then(function(response) {
-                    let giffs = response.data;
-                    console.log(response.data);
-
-                for (var k = 0; k < giffs.length; k++) {
-                    let gifDiv = $("<div>");
-
-                    let rating = (giffs[k].rating).toUpperCase();
-
-                    let p = $("<p>").text(`Rating: ${rating}`);
-
-                    let gifImage = $("<img>");
-                    gifImage.attr("src", giffs[k].images.fixed_height.url);
-
-                    gifDiv.prepend(p);
-                    gifDiv.prepend(gifImage);
-
-                    $(".gif-container").prepend(gifDiv);
-                }
-            }).catch(console.log);
-        });*/
-
