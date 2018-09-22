@@ -2,7 +2,9 @@ let topics = ["dog", "cat", "rabbit", "hamster", "skunk", "goldfish", "bird", "f
     "sugar glider", "chinchilla", "hedgehog", "hermit crab", "gerbil", "pygmy goat", "chicken", "capybara",
     "teacup pig", "serval", "ostrich", "salamander", "frog"];
 
+let queryOffset;
 
+let offsetNum = 0;
 
 function renderButtons() {
     $(".button-container").empty()
@@ -28,7 +30,8 @@ function renderFavorites(favArray) {
 
 function queryGiphy(topic) {
     let apiKey = '';
-    let queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${apiKey}&limit=10`;
+    queryOffset = `&offset=${offsetNum}`;
+    let queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${apiKey}&limit=10${queryOffset}`;
 
     $.ajax({
         url: queryURL,
@@ -36,7 +39,7 @@ function queryGiphy(topic) {
     })
         .then(function (response) {
             let giffs = response.data;
-            console.log(response.data);
+            // console.log(response.data);
 
             for (var k = 0; k < giffs.length; k++) {
                 let gifDiv = $(`<div class="gif-cards">`);
@@ -69,14 +72,17 @@ function queryGiphy(topic) {
             }
         }).catch(console.log);
 
-    $(".more-button").append($(`<button class="show-more" data-topic="${topic}">Show Me More!</button>`))
-
+    $(".more-button").append($(`<button class="show-more" data-topic="${topic}">Show Me More!</button>`));
+    offsetNum += 10;
+    console.log(offsetNum);
 }
 
 $(document).on("click", ".topic-btn", function () {
+    offsetNum = 0;
+    console.log(offsetNum);
     $(".gif-container, .more-button").empty();
     var chosenTopic = $(this).attr("data-topic");
-    console.log(chosenTopic);
+    /*console.log(chosenTopic);*/
 
     queryGiphy(chosenTopic);
 })
@@ -99,14 +105,14 @@ $(document).on("click", ".topic-btn", function () {
         let fav = {};
 
         fav.thumbnail = $(this).attr("data-fav");
-        console.log(fav.thumbnail);
+        // console.log(fav.thumbnail);
 
         fav.link = $(this).attr("data-fav-full");
-        console.log(fav.link);
+        // console.log(fav.link);
 
-        console.log(fav);
+        // console.log(fav);
         favArray.push(fav);
-        console.log(favArray);
+        // console.log(favArray);
 
         localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
 
@@ -116,7 +122,7 @@ $(document).on("click", ".topic-btn", function () {
     .on("click", ".rmFav", function () {
         console.log(this);
         let rmArray = $(this).attr("data-delete");
-        console.log(rmArray);
+        // console.log(rmArray);
 
         favArray.splice(rmArray, 1);
 
@@ -133,7 +139,7 @@ $(document).on("click", ".topic-btn", function () {
     var chosenTopic = $(this).attr("data-topic");
     this.remove();
     queryGiphy(chosenTopic);
-    $("body").scrollTop(0);
+    /*$("body").scrollTop(0);*/
     });
 
 $(document).ready(function () {
