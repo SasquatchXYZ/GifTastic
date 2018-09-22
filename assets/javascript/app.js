@@ -2,6 +2,8 @@ let topics = ["dog", "cat", "rabbit", "hamster", "skunk", "goldfish", "bird", "f
     "sugar glider", "chinchilla", "hedgehog", "hermit crab", "gerbil", "pygmy goat", "chicken", "capybara",
     "teacup pig", "serval", "ostrich", "salamander", "frog"];
 
+let offsetNum = 0;
+
 function renderButtons() {
     $(".button-container").empty()
         .html(
@@ -27,7 +29,8 @@ function renderFavorites(favArray) {
 function queryGiphy(topic) {
 
     let apiKey = '';
-    let queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${apiKey}&limit=10`;
+    let queryOffset = `&offset=${offsetNum}`;
+    let queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${apiKey}&limit=10${queryOffset}`;
 
     $.ajax({
         url: queryURL,
@@ -35,7 +38,7 @@ function queryGiphy(topic) {
     })
         .then(function (response) {
             let giffs = response.data;
-            console.log(response.data);
+            // console.log(response.data);
 
             for (var k = 0; k < giffs.length; k++) {
                 let gifDiv = $(`<div class="gif-cards">`);
@@ -64,12 +67,17 @@ function queryGiphy(topic) {
             }
         }).catch(console.log);
 
+    $(".more-button").append($(`<button class="show-more" data-topic="${topic}">Show Me More!</button>`));
+    offsetNum += 10;
+    console.log(offsetNum);
 }
 
 $(document).on("click", ".topic-btn", function () {
-    $(".gif-container").empty();
+    offsetNum = 0;
+    console.log(offsetNum);
+    $(".gif-container, .more-button").empty();
     var chosenTopic = $(this).attr("data-topic");
-    console.log(chosenTopic);
+    // console.log(chosenTopic);
 
     queryGiphy(chosenTopic);
 })
@@ -108,6 +116,12 @@ $(document).on("click", ".topic-btn", function () {
         localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
 
         renderFavorites(favArray);
+    })
+
+    .on("click", ".show-more", function () {
+        var chosenTopic = $(this).attr("data-topic");
+        this.remove();
+        queryGiphy(chosenTopic);
     });
 
 $(document).ready(function () {

@@ -76,6 +76,18 @@ button, form, input {
     border: 1px solid aqua;
 }
 
+.show-more {
+    float: left;
+    background: none;
+    border: 1px solid grey;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.show-more:hover {
+    border: 1px solid darkorange;
+}
+
 .favorites {
     margin: 10px;
     width: 15%;
@@ -88,6 +100,7 @@ a {
     align-content: center;
     margin: 0 auto 5px auto;
 }
+
 .rmFav {
     float: left;
     margin: 0;
