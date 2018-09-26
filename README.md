@@ -3,7 +3,7 @@ Homework 6 - Involving GIPHY API, JavaScript, and jQuery.
 
 ## Getting Started
 
-This is a fun and interactive dynamic webpage that uses the GIPHY API through JavaScript and jQuery to update the HTML of the site.
+This is a fun and interactive dynamic webpage that uses the GIPHY API through JavaScript and jQuery to update the HTML of the site.  Anything can be added to the button array by using the text input, I simply started with the animals to get an initial array in there, and stuck with it because I enjoyed them.  There is a favorites section that you can add any gifs you like to it, and it uses local storage in order to ensure that your favorites stick around.  You can remove gifs from your favorites section by clicking on the red 'X' button, which removes them.  Initially when you first click a topic button, it displays 10 gifs for you to chose from, however at the bottom of you screen a button is added that gives you the option of adding 10 more gifs if you so chose to do so.  Enjoy!
 
 ### Prerequisites
 
