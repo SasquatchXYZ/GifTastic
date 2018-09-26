@@ -107,3 +107,7 @@ a {
     border: none;
     background: none;
 }
+
+.rmFav:hover {
+    color: red;
+}

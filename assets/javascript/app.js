@@ -1,9 +1,12 @@
+// The array for our initial buttons to be loaded when the window opens, for the sake of simplicity I just used animals
 let topics = ["dog", "cat", "rabbit", "hamster", "skunk", "goldfish", "bird", "ferret", "turtle",
     "sugar glider", "chinchilla", "hedgehog", "hermit crab", "gerbil", "pygmy goat", "chicken", "capybara",
     "teacup pig", "serval", "ostrich", "salamander", "frog"];
 
+// This is the offset counter so that when you wish to load more gifs from the site, you get new ones.
 let offsetNum = 0;
 
+// Functions ===========================================================================================================
 function renderButtons() {
     $(".button-container").empty()
         .html(
@@ -28,7 +31,7 @@ function renderFavorites(favArray) {
 
 function queryGiphy(topic) {
 
-    let apiKey = '';
+    let apiKey = '9OMI8GxD4qrbVLJ6Env1e5XXHytw7ki0';
     let queryOffset = `&offset=${offsetNum}`;
     let queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${apiKey}&limit=10${queryOffset}`;
 
@@ -71,6 +74,7 @@ function queryGiphy(topic) {
     offsetNum += 10;
     console.log(offsetNum);
 }
+
 
 $(document).on("click", ".topic-btn", function () {
     offsetNum = 0;
@@ -142,6 +146,8 @@ $(document).ready(function () {
     renderButtons();
 
 });
+
+// Saves your favorite gifs to local storage and reloads them.
 
 let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
 
