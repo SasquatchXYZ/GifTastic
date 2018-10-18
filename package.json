@@ -1,0 +1,23 @@
+{
+  "name": "GifTastic",
+  "version": "1.0.0",
+  "description": "Homework 6 - Involving GIPHY API, JavaScript, and jQuery.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SasquatchXYZ/GitTastic.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SasquatchXYZ/GitTastic/issues"
+  },
+  "homepage": "https://github.com/SasquatchXYZ/GitTastic#readme",
+  "dependencies": {
+    "dotenv": "^6.1.0"
+  }
+}

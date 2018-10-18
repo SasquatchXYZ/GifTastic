@@ -19,11 +19,13 @@ function renderButtons() {
 
 function renderFavorites(favArray) {
     $(".favorites").empty();
+
     for (var n = 0; n < favArray.length; n++) {
         let favCard = $(`<a href="${favArray[n].link}" target="_blank" class="fav">
                         <img src="${favArray[n].thumbnail}"></a>
                         <button class="rmFav" data-delete="${n}">x</button>
                         `);
+
 
         $(".favorites").append(favCard);
     }
@@ -61,6 +63,7 @@ function queryGiphy(topic) {
                 favoriteBtn.attr("data-fav", giffs[k].images.fixed_width.url)
                     .attr("data-fav-full", giffs[k].images.original.url)
                     .attr("data-object", giffs[k]);
+
                 p.append(favoriteBtn);
 
                 gifDiv.prepend(gifImage);
@@ -86,7 +89,8 @@ $(document).on("click", ".topic-btn", function () {
     queryGiphy(chosenTopic);
 })
 
-    .on("click", ".gif", function () {
+
+    .on("mouseover", ".gif", function () {
         const state = $(this).attr("data-state");
 
         if (state === 'animate') {
@@ -104,6 +108,7 @@ $(document).on("click", ".topic-btn", function () {
         let fav = {};
 
         fav.thumbnail = $(this).attr("data-fav");
+
         fav.link = $(this).attr("data-fav-full");
 
         favArray.push(fav);
