@@ -1,16 +1,12 @@
-/*require()
-console.log(process.env.API_KEY);
-var apiKey = process.env.API_KEY;*/
-
-
+// The array for our initial buttons to be loaded when the window opens, for the sake of simplicity I just used animals
 let topics = ["dog", "cat", "rabbit", "hamster", "skunk", "goldfish", "bird", "ferret", "turtle",
     "sugar glider", "chinchilla", "hedgehog", "hermit crab", "gerbil", "pygmy goat", "chicken", "capybara",
     "teacup pig", "serval", "ostrich", "salamander", "frog"];
 
-let queryOffset;
-
+// This is the offset counter so that when you wish to load more gifs from the site, you get new ones.
 let offsetNum = 0;
 
+// Functions ===========================================================================================================
 function renderButtons() {
     $(".button-container").empty()
         .html(
@@ -34,8 +30,9 @@ function renderFavorites(favArray) {
 }
 
 function queryGiphy(topic) {
+
     let apiKey = '';
-    queryOffset = `&offset=${offsetNum}`;
+    let queryOffset = `&offset=${offsetNum}`;
     let queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${apiKey}&limit=10${queryOffset}`;
 
     $.ajax({
@@ -66,10 +63,6 @@ function queryGiphy(topic) {
                     .attr("data-object", giffs[k]);
                 p.prepend(favoriteBtn);
 
-                let buttonLink = giffs[k].url;
-                let downloadBtn = $(`<button><a href=${buttonLink} download="animal.gif">Save</a></button>`);
-                p.append(downloadBtn);
-
                 gifDiv.prepend(gifImage);
                 gifDiv.prepend(p);
 
@@ -81,6 +74,7 @@ function queryGiphy(topic) {
     offsetNum += 10;
     console.log(offsetNum);
 }
+
 
 $(document).on("click", ".topic-btn", function () {
     offsetNum = 0;
@@ -136,15 +130,10 @@ $(document).on("click", ".topic-btn", function () {
         localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
     })
 
-/*    .on("click", '.download', function(){
-        let downloadlink = $(this).attr("data-download");
-        downloadlink.attr("download");
-});*/
     .on("click", ".show-more", function () {
     var chosenTopic = $(this).attr("data-topic");
     this.remove();
     queryGiphy(chosenTopic);
-    /*$("body").scrollTop(0);*/
     });
 
 $(document).ready(function () {
@@ -164,9 +153,11 @@ $(document).ready(function () {
         renderButtons();
     });
 
+    renderButtons();
+
 });
 
-renderButtons();
+// Saves your favorite gifs to local storage and reloads them.
 
 let favArray = JSON.parse(localStorage.getItem("FavoriteGifs"));
 
