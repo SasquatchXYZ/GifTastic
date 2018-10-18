@@ -19,11 +19,13 @@ function renderButtons() {
 
 function renderFavorites(favArray) {
     $(".favorites").empty();
-    for (var k = 0; k < favArray.length; k++) {
-        let favCard = $(`<a href="${favArray[k].link}" target="_blank" class="fav">
-                            <img src="${favArray[k].thumbnail}"></a>
-                            <button class ="rmFav" data-delete="${k}">x</button>
-                            `);
+
+    for (var n = 0; n < favArray.length; n++) {
+        let favCard = $(`<a href="${favArray[n].link}" target="_blank" class="fav">
+                        <img src="${favArray[n].thumbnail}"></a>
+                        <button class="rmFav" data-delete="${n}">x</button>
+                        `);
+
 
         $(".favorites").append(favCard);
     }
@@ -31,7 +33,7 @@ function renderFavorites(favArray) {
 
 function queryGiphy(topic) {
 
-    let apiKey = '';
+    let apiKey = '9OMI8GxD4qrbVLJ6Env1e5XXHytw7ki0';
     let queryOffset = `&offset=${offsetNum}`;
     let queryURL = `https://api.giphy.com/v1/gifs/search?q=${topic}&api_key=${apiKey}&limit=10${queryOffset}`;
 
@@ -61,7 +63,8 @@ function queryGiphy(topic) {
                 favoriteBtn.attr("data-fav", giffs[k].images.fixed_width.url)
                     .attr("data-fav-full", giffs[k].images.original.url)
                     .attr("data-object", giffs[k]);
-                p.prepend(favoriteBtn);
+
+                p.append(favoriteBtn);
 
                 gifDiv.prepend(gifImage);
                 gifDiv.prepend(p);
@@ -81,10 +84,11 @@ $(document).on("click", ".topic-btn", function () {
     console.log(offsetNum);
     $(".gif-container, .more-button").empty();
     var chosenTopic = $(this).attr("data-topic");
-    /*console.log(chosenTopic);*/
+    // console.log(chosenTopic);
 
     queryGiphy(chosenTopic);
 })
+
 
     .on("mouseover", ".gif", function () {
         const state = $(this).attr("data-state");
@@ -104,14 +108,10 @@ $(document).on("click", ".topic-btn", function () {
         let fav = {};
 
         fav.thumbnail = $(this).attr("data-fav");
-        // console.log(fav.thumbnail);
 
         fav.link = $(this).attr("data-fav-full");
-        // console.log(fav.link);
 
-        // console.log(fav);
         favArray.push(fav);
-        // console.log(favArray);
 
         localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
 
@@ -119,21 +119,18 @@ $(document).on("click", ".topic-btn", function () {
     })
 
     .on("click", ".rmFav", function () {
-        console.log(this);
         let rmArray = $(this).attr("data-delete");
-        // console.log(rmArray);
-
         favArray.splice(rmArray, 1);
 
-        renderFavorites(favArray);
-
         localStorage.setItem("FavoriteGifs", JSON.stringify(favArray));
+
+        renderFavorites(favArray);
     })
 
     .on("click", ".show-more", function () {
-    var chosenTopic = $(this).attr("data-topic");
-    this.remove();
-    queryGiphy(chosenTopic);
+        var chosenTopic = $(this).attr("data-topic");
+        this.remove();
+        queryGiphy(chosenTopic);
     });
 
 $(document).ready(function () {
@@ -144,12 +141,10 @@ $(document).ready(function () {
 
         const newTopic = $("#topic-input").val();
         if (newTopic === "") {
-
         } else {
             topics.push(newTopic);
-            $("#topic-input").val("")
+            $("#topic-input").val("");
         }
-
         renderButtons();
     });
 
@@ -166,3 +161,4 @@ if (!Array.isArray(favArray)) {
 }
 
 renderFavorites(favArray);
+
